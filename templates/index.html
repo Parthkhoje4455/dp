@@ -4,50 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Message Generator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 250px;
+    }
+    button {
+      padding: 10px 15px;
+      margin-left: 10px;
+      border: none;
+      background: #007BFF;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #message-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 300px;
+      text-align: center;
+    }
+    #copy-btn {
+      margin-top: 10px;
+      background: #28a745;
+    }
+    #copy-btn:hover {
+      background: #1e7e34;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-  <div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
+<body>
+  <h1>Message Generator</h1>
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">📩 Message Generator</h1>
+  <form method="POST" action="/">
+    <input type="text" name="name" placeholder="Enter a name" required>
+    <button type="submit">Generate Message</button>
+  </form>
 
-    <form method="POST" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-600">Numbers</label>
-        <input type="text" name="nums" placeholder="e.g. 12345"
-               class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-600">Amount</label>
-        <input type="number" name="amount" placeholder="Enter amount"
-               class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-600">Market</label>
-        <input type="text" name="market" placeholder="Market name"
-               class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-      </div>
-
-      <button type="submit"
-              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-300">
-        Generate Message
-      </button>
-    </form>
-
-    {% if message %}
-      <div class="mt-6">
-        <label class="block text-sm font-medium text-gray-600">Generated Message</label>
-        <textarea id="msgBox" rows="8"
-                  class="mt-2 block w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">{{ message }}</textarea>
-        <button onclick="copyMessage()"
-                class="mt-3 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition duration-300">
-          Copy to Clipboard
-        </button>
-      </div>
-    {% endif %}
+  {% if message %}
+  <div id="message-box">
+    <p id="message">{{ message }}</p>
+    <button id="copy-btn" onclick="copyMessage()">Copy</button>
   </div>
+  {% endif %}
+
+  <script>
+    function copyMessage() {
+      const message = document.getElementById("message").innerText;
+      navigator.clipboard.writeText(message).then(() => {
+        alert("Message copied to clipboard!");
+      });
+    }
+  </script>
 </body>
 </html>
