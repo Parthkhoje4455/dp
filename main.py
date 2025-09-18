@@ -28,11 +28,10 @@ def home():
                 f"{dp_str}"
                 f"Total {int(len(nums) * amount * 4.5)}")
 
-        # Copy to clipboard
-        pyperclip.copy(mess)
 
     return render_template("index.html", message=mess)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
